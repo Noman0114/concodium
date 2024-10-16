@@ -1,8 +1,13 @@
+'use client'
 import { ArrowLeft, Copy } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 
 export default function SubmitXPost() {
+  const [error, setError] = useState(false); 
+  const [postLink, setPostLink] = useState("");
+
   const ProgressStep = ({
     number,
     active,
@@ -28,10 +33,22 @@ export default function SubmitXPost() {
     </div>
   );
 
+  // Handle button click and validate input
+  const handleContinue = () => {
+    if (!postLink.trim()) {
+      setError(true); // Show error if input is empty
+    } else {
+      setError(false); // Clear error if input is valid
+      // Proceed with navigation
+      // You can use `Router.push` for navigation
+      window.location.href = "/proof"; // Redirecting to the next page
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-[#14181D] text-gray-100 pt-[64px]  flex flex-col">
-      <main className="flex-grow flex flex-col items-center  max-w-2xl mx-auto w-full">
-        <div className="flex justify-center ">
+    <div className="min-h-screen bg-[#14181D] text-gray-100 pt-[64px] flex flex-col">
+      <main className="flex-grow flex flex-col items-center max-w-2xl mx-auto w-full">
+        <div className="flex justify-center">
           <ProgressStep number={1} active={true} />
           <ProgressStep number={2} active={false} />
           <ProgressStep number={3} active={false} />
@@ -42,27 +59,29 @@ export default function SubmitXPost() {
         </h1>
 
         <div className="w-full max-w-[339px] space-y-4">
-          <div className="bg-transparent px-[14px] pb-[12px] pt-[8px] border-[#71797E] border rounded-[12px]  ">
+          <div className="bg-transparent px-[14px] pb-[12px] pt-[8px] border-[#71797E] border rounded-[12px]">
             <label
               htmlFor="post-link"
-              className="block text-[12px] font-medium text-gray-400 "
+              className="block text-[12px] font-medium text-gray-400"
             >
               Paste link here
             </label>
             <input
               type="text"
               id="post-link"
-              className="w-full bg-transparent text-white outline-none  rounded-md"
+              className="w-full bg-transparent text-white outline-none rounded-md"
               placeholder="https://x.com/coingecko/status/181499..."
+              value={postLink}
+              onChange={(e) => setPostLink(e.target.value)} 
             />
           </div>
 
-          <div className="bg-transparent w-[339px]  border border-[#71797E]  py-[12px] px-[12px]  rounded-[14px] ">
+          <div className="bg-transparent w-[339px] border border-[#71797E] py-[12px] px-[12px] rounded-[14px]">
             <h2 className="text-lg sm:text-xl font-semibold">Details</h2>
-            <ul className="list-disc list-inside  text-gray-300 text-[14px] ">
+            <ul className="list-disc list-inside text-gray-300 text-[14px]">
               <li>
                 Your post should contain the #Concordium hashtag and mention{" "}
-                <span className="text-blue-500 ">@ConcordiumNet</span>
+                <span className="text-blue-500">@ConcordiumNet</span>
               </li>
               <li>The text can be anything you want</li>
               <li>Use the template below or write your own</li>
@@ -83,7 +102,7 @@ export default function SubmitXPost() {
                 />
                 <div>
                   <p className="font-semibold text-[11px]">Yourname</p>
-                  <p className="text-gray-400 text-[11px">@yournickname</p>
+                  <p className="text-gray-400 text-[11px]">@yournickname</p>
                 </div>
               </div>
               <p className="text-[12px] font-normal">
@@ -100,8 +119,20 @@ export default function SubmitXPost() {
           </div>
         </div>
 
-        <button className="bg-white mt-[96px] text-gray-900 font-semibold py-2 sm:py-3 px-6 rounded-full hover:bg-gray-200 transition-colors w-full max-w-xs">
-          <Link href="/proof">Continue</Link>
+        {error && (
+          <div className="bg-red-400/30 rounded p-4  mt-2">
+
+          <p className="text-red-400 text-center text-sm sm:text-base mb-4">
+            Please enter a valid link.
+          </p>
+          </div>
+        )}
+        
+        <button 
+          onClick={handleContinue} // Call the handler here
+          className="bg-white mt-[96px] text-gray-900 font-semibold py-2 sm:py-3 px-6 rounded-full hover:bg-gray-200 transition-colors w-full max-w-xs"
+          >
+          Continue
         </button>
       </main>
     </div>
