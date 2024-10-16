@@ -1,5 +1,5 @@
 "use client";
-import { ArrowLeft, Check } from "lucide-react";
+import { Check } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
