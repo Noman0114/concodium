@@ -75,7 +75,7 @@ export default function ConnectWallet() {
     string | null
   >(null);
 
-  const [next, setNext] = useState(false);
+  const [next] = useState(false);
 
   const generateQRCode = async (walletUrl: string) => {
     try {
